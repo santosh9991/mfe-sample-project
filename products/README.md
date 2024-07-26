@@ -1,3 +1,6 @@
+# Micro Frontend
+![Micro froenend](images/mfe-overview.png)
+
 # Webpack
 - It transforms multiple input JS file into a single js file, which we typically called as bundle. This file is then 
 - passed on to the browser to get executed. To execute the file on to the browser we need to configure webpack with devServer. It is a 
@@ -45,3 +48,37 @@ module.exports = {
         ]
     }
     ```
+    - With the above webpack configuration we are able to acheive following things
+        - able to inject the webpack outbput bundler into the html file and execute the code in browser
+        - now we want to make this code accessable to external apps. How do we acheive it? We can use ModuleFederationPlugin provided by webpack. below is the code snippet to acheive it
+        ```
+        const HtmlWebpackPlugin = require('html-webpack-plugin');
+        const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+        module.exports = {
+            mode: "development",
+            devServer:{
+                port: 8081
+            },
+            plugins: [
+                new HtmlWebpackPlugin({
+                    template: './src/index.html'
+                }),
+                new ModuleFederationPlugin({
+                    name: "products",
+                    filename: "remoteEntry.js",
+                    exports: {
+                        './ProductIndex': "./src/index"
+                    }
+                })
+            ]
+        }
+
+        ```
+        - Above code does the following
+            - Emits a noraml main.js (bundler) seperately
+            - ModuleFederationPlugin emits remoteEntry.js, src_index.js, faker.js. 
+            - remoteEntry.js file contains a list of files that are available from this project and directions on how to load them
+            - version of src_index.js and faker.js files that are transformed by webpack and are ready to execute safly by browser. remote.Entry has all the information about how to execute them.
+            - when we look at the src_index.js file outputed by the webpack. It looks similar to our index.js with some webpack code added to it which helps in importing the dependencies required to run the index.js
+            - ModuleFederation Plugin spits out few files with instructions on how other projects can get access to the source code of the products.
+        
