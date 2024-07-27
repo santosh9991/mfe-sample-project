@@ -1,2 +1,1 @@
-const cartLogic = `<div>items added to cart</div>`
-document.querySelector("#dev-cart").innerHTML = cartLogic
+import('./bootstrap');//introducing asynchronocity to loading up the dependencies before the bootstrap code is run

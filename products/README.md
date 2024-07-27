@@ -82,3 +82,8 @@ module.exports = {
             - when we look at the src_index.js file outputed by the webpack. It looks similar to our index.js with some webpack code added to it which helps in importing the dependencies required to run the index.js
             - ModuleFederation Plugin spits out few files with instructions on how other projects can get access to the source code of the products.
         
+- Sub-App Execution context
+    - Main goal of microfrontend is to run it in isolation. Each microfrotend has and html and index.js file. When a microfrontend is run in development mode, html should be loaded on to browser, when run in production it should not.
+    - In index.js file in products app we generate some html code and try to render it by passing it into html using some random id selector. However, this may be fine for the products team who is working on it. When the same file is consumed by the container, it doesn't work. To overcome this we need to come up with a solution to make it dynamic. The container team is completely a seperate team that might not have a div element expected by the procuct app index.js and might cause an issue. They might have an html with different Id. Product team will not have access to the html file of the container team. 
+    This might lead to a bog problem. Container team can't ensure or guarentee that some id that product team expects. 
+    ![](images/sub-app-execution-context.png)

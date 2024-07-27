@@ -7,3 +7,5 @@
 ![JS code flow](images/file-execution-flow.png)
 - From the above screenshot we can notice that browser executes main.js first which intearn imports bootstrap.js---> bootstrap.js has a products code that needs to be fetched from a products MFE. It goes and fetches remoteEntry.js tells webpack that in order to run the bootstrap.js we need to fetch the src_index and faker.js ----> remoteEntry.js tells where to fetch the src_index and faker.js
 - Once it has all the files needed to run the bootstrap. It runs the bootstrap
+![](images/shared-modules.png)
+- ModuleFederation plugin adds additional code to help container make proper decisions like not alowing duplicate modules to be loaded. We need to add shared property to the ModuleFederation configuration
